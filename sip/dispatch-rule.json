@@ -1,0 +1,14 @@
+{
+  "dispatch_rule": {
+    "rule": {
+      "dispatch_rule_callee": {
+        "room_prefix": "call-",
+        "randomize": true
+      }
+    },
+    "name": "voxbr",
+    "room_config": {
+      "agents": [{ "agent_name": "voxbr" }]
+    }
+  }
+}

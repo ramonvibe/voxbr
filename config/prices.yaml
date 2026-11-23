@@ -1,0 +1,16 @@
+# Preços em USD usados para o custo por chamada.
+# ATENÇÃO: valores de referência, NÃO conferidos nas páginas oficiais. Confira antes de usar em decisão de custo.
+# Chave: "<provider>:<model>" (como o LiveKit reporta) ou só "<model>".
+# LLM: input_per_mtok / output_per_mtok (por milhão de tokens)
+# STT: per_minute (minuto de áudio)
+# TTS: per_minute (minuto de áudio gerado) ou per_mchar (por milhão de caracteres)
+
+gpt-4.1-mini: {input_per_mtok: 0.40, output_per_mtok: 1.60}
+gpt-4.1: {input_per_mtok: 2.00, output_per_mtok: 8.00}
+gemini-2.5-flash: {input_per_mtok: 0.30, output_per_mtok: 2.50}
+
+gpt-live-transcribe: {per_minute: 0.006}
+gpt-transcribe: {per_minute: 0.006}
+gpt-4o-mini-transcribe: {per_minute: 0.003}
+
+gpt-4o-mini-tts: {per_minute: 0.015}

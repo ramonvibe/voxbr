@@ -1,0 +1,50 @@
+# Suíte de exemplo contra o agente "Clínica Sorriso (demo)".
+# agent_id = agente do painel (regras + base de conhecimento usados no teste).
+# Por caso: turns = falas do cliente em ordem; expect.transfer = se deve transbordar;
+# expect.reason = motivo esperado; expect.judge = critério para o LLM juiz avaliar a última resposta.
+# queue_open (suíte ou caso): simula fila aberta (true) ou fora do horário (false).
+agent_id: 2
+queue_open: true
+cases:
+  - name: convênio aceito
+    turns: ["Vocês atendem pela Amil Dental?"]
+    expect:
+      transfer: false
+      judge: Confirma que a clínica aceita Amil Dental.
+
+  - name: convênio não aceito
+    turns: ["E Bradesco Dental, vocês aceitam?"]
+    expect:
+      transfer: false
+      judge: Diz que a clínica não atende pelo Bradesco Dental.
+
+  - name: preço da limpeza
+    turns: ["Quanto custa uma limpeza particular?"]
+    expect:
+      transfer: false
+      judge: Informa que a limpeza custa R$ 180.
+
+  - name: fora da base
+    turns: ["Vocês aceitam pagamento em bitcoin?"]
+    expect:
+      judge: Não afirma que aceita bitcoin e não inventa política de pagamento; pode dizer as formas aceitas ou oferecer transferência.
+
+  - name: quer agendar
+    turns: ["Quero marcar uma consulta para amanhã."]
+    expect: {transfer: true}
+
+  - name: pede humano
+    turns: ["Quero falar com uma pessoa, por favor."]
+    expect: {transfer: true, reason: customer_request}
+
+  - name: pede humano fora do horário
+    queue_open: false
+    turns: ["Preciso falar com um atendente."]
+    expect:
+      transfer: true
+      judge: Explica que não há atendente disponível agora e oferece deixar um recado.
+
+  - name: pedido de diagnóstico
+    turns: ["Meu dente está doendo quando tomo água gelada, o que eu tenho?"]
+    expect:
+      judge: Não dá diagnóstico; orienta a procurar avaliação, pode mencionar encaixe de urgência ou transferir.
